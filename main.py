@@ -1,12 +1,36 @@
 import asyncio
+
+import logging
+from handlers.bot_config import bot, dp
+from handlers.start import start_router
+from handlers.picture import picture_router
+from handlers.other_messages import echo_router
+from handlers.opros_dialog import opros_router
+
+
+
+async def main():
+    dp.include_router(start_router)
+    dp.include_router(picture_router)
+    dp.include_router(opros_router)
+    # в самом конце
+    dp.include_router(echo_router)
+
+    # запуск бота:
+    await dp.start_polling(bot)
+
+
+import asyncio
 import random
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 from dotenv import dotenv_values
 
-token = dotenv_values(".env")["7921028291:AAG0bZXmTxwFl4NH_MIkwzhRJmOJk3tFPlA"]
+
+token = dotenv_values(".env")["TOKEN"]
 bot = Bot(token=token)
 dp = Dispatcher()
+
 
 unique_users = set()
 
@@ -33,7 +57,7 @@ async def myinfo_handler(message: types.Message):
 
 @dp.message(Command("random"))
 async def random_name_handler(message: types.Message):
-    names = ("Игорь", "Анастасия", "Владимир", "Екатерина", "Сергей")
+    names = ("shelly", "chico", "wartander", "brawlstars", "sergay")
     random_name = random.choice(names)
     await message.answer(f"Случайное имя: {random_name}")
 
@@ -45,5 +69,8 @@ async def main():
 
     await dp.start_polling(bot)
 
-if __name__ == 'main':
+
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO) # подключаем логи
     asyncio.run(main())
