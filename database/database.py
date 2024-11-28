@@ -136,3 +136,39 @@ class Database:
         );
         '''
         self.execute(create_dishes_table_query)
+
+
+
+import sqlite3
+
+class Database:
+    def init(self, db_name="reviews.db"):
+        self.db_name = db_name
+
+    def execute(self, query, params=()):
+        with sqlite3.connect(self.db_name) as conn:
+            cursor = conn.cursor()
+            cursor.execute(query, params)
+            conn.commit()
+            return cursor
+
+    def create_tables(self):
+        create_categories_table_query = '''
+        CREATE TABLE IF NOT EXISTS dish_categories (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            category_name TEXT NOT NULL
+        );
+        '''
+        self.execute(create_categories_table_query)
+
+        create_dishes_table_query = '''
+        CREATE TABLE IF NOT EXISTS dishes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            description TEXT NOT NULL,
+            price REAL NOT NULL,
+            category_id INTEGER NOT NULL,
+            FOREIGN KEY (category_id) REFERENCES dish_categories(id)
+        );
+        '''
+        self.execute(create_dishes_table_query)
