@@ -1,10 +1,15 @@
+
+
+"""тут 4 и 5 дзшки"""
+
+
 from aiogram import Router, types, F
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
 
 review_router = Router()
-reviewed_users = set()  # Список пользователей, оставивших отзывы
+reviewed_users = set()
 
 class RestourantReview(StatesGroup):
     name = State()

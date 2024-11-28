@@ -68,3 +68,33 @@ class Database:
 #         genre TEXT
 #     )
 # """)
+
+
+import sqlite3
+
+class Database:
+    def init(self, db_name="reviews.db"):
+        self.db_name = db_name
+
+    def execute(self, query, params=()):
+        with sqlite3.connect(self.db_name) as conn:
+            cursor = conn.cursor()
+            cursor.execute(query, params)
+            conn.commit()
+            return cursor
+
+    def create_tables(self):
+        # Создание таблицы reviews
+        create_table_query = '''
+        CREATE TABLE IF NOT EXISTS reviews (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            name TEXT NOT NULL,
+            contact TEXT NOT NULL,
+            visit_date TEXT NOT NULL,
+            food_rating INTEGER NOT NULL,
+            cleanliness_rating INTEGER NOT NULL,
+            extra_comments TEXT
+        );
+        '''
+        self.execute(create_table_query)
